@@ -30,7 +30,7 @@ def do_crop(src_path, dst_path, basename, spec, temp_dir):
                                                         bottom_y_offset)),
                  ('bottom.right', '1x1+{}+{}!'.format(right_x_offset, bottom_y_offset))]
     for (crop_name, crop_spec) in crop_args:
-        # print(crop_name)
+        # print(crop_name, file=sys.stderr)
         temp_name = '{}.{}.png'.format(basename, crop_name)
         temp_path = os.path.join(temp_dir, temp_name)
         cmd = ('convert {}'
@@ -41,9 +41,9 @@ def do_crop(src_path, dst_path, basename, spec, temp_dir):
                              stdout=subprocess.PIPE)
         p.wait()
         if p.returncode:
-            print('Failed to execute "{}"'.format(cmd))
+            print('Failed to execute "{}"'.format(cmd), file=sys.stderr)
             print('Returned "{}"'.format(p.returncode), file=sys.stderr)
-            print('{}\n'.format(p.stdout.read()))
+            print('{}\n'.format(p.stdout.read()), file=sys.stderr)
             return False
 
     intermediate_files = map(lambda x: os.path.join(temp_dir, '{}.{}.png'.format(basename, x[0])),
@@ -63,7 +63,7 @@ def do_crop(src_path, dst_path, basename, spec, temp_dir):
         if p.returncode:
             print('Failed to execute "{}"'.format(cmd), file=sys.stderr)
             print('Returned "{}"'.format(p.returncode), file=sys.stderr)
-            print('{}\n'.format(p.stdout.read()))
+            print('{}\n'.format(p.stdout.read()), file=sys.stderr)
             return False
     except Exception as e:
         print('Failed to execute "{}"'.format(cmd), file=sys.stderr)
